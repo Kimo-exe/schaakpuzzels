@@ -12,11 +12,13 @@ import {
   IconButton,
   Typography,
 } from '@mui/material'
-import type {FunctionComponent} from 'react'
+import {type FunctionComponent, useMemo, useState} from 'react'
+import ChessBoard from '@/components/chessBoard.tsx'
 import FavoriteButton from '@/components/favoriteButton.tsx'
 import PuzzleInfoChips from '@/components/puzzleInfoChips.tsx'
 import type {IPuzzle} from '@/models/puzzle.ts'
 import SolutionViewer from '@/pages/puzzles/solutionViewer.tsx'
+import {getBoardPositions} from '@/utils/chessUtils.ts'
 import {formatDate} from '@/utils/puzzleUtils.ts'
 
 interface PuzzleDetailDialogProps {
@@ -25,6 +27,9 @@ interface PuzzleDetailDialogProps {
 }
 
 const PuzzleDetailDialog: FunctionComponent<PuzzleDetailDialogProps> = ({puzzle, onClose}) => {
+  const [revealedCount, setRevealedCount] = useState<number>(0)
+  const positions = useMemo(() => getBoardPositions(puzzle.fen, puzzle.moves), [puzzle.fen, puzzle.moves])
+
   return (
     <Dialog open onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle sx={{pr: 6}}>
@@ -39,7 +44,20 @@ const PuzzleDetailDialog: FunctionComponent<PuzzleDetailDialogProps> = ({puzzle,
       <DialogContent dividers>
         <Grid container spacing={3}>
           <Grid size={{xs: 12, md: 6}}>
-            <Box component="img" src={puzzle.image} alt={`Bordstelling van ${puzzle.title}`} sx={{width: '100%'}} />
+            {positions ? (
+              <ChessBoard
+                position={positions[revealedCount]}
+                orientation={puzzle.sideToMove}
+                label={
+                  revealedCount === 0
+                    ? `Beginstelling van ${puzzle.title}`
+                    : `Stelling na zet ${revealedCount} van ${puzzle.moves.length}`
+                }
+              />
+            ) : (
+              // Als de zetten niet ingelezen kunnen worden, tonen we de afbeelding van Chess.com.
+              <Box component="img" src={puzzle.image} alt={`Bordstelling van ${puzzle.title}`} sx={{width: '100%'}} />
+            )}
           </Grid>
           <Grid size={{xs: 12, md: 6}}>
             <PuzzleInfoChips puzzle={puzzle} />
@@ -47,7 +65,12 @@ const PuzzleDetailDialog: FunctionComponent<PuzzleDetailDialogProps> = ({puzzle,
               FEN: {puzzle.fen}
             </Typography>
             <Divider sx={{my: 2}} />
-            <SolutionViewer puzzle={puzzle} />
+            <SolutionViewer
+              moves={puzzle.moves}
+              sideToMove={puzzle.sideToMove}
+              revealedCount={revealedCount}
+              onRevealedCountChange={setRevealedCount}
+            />
           </Grid>
         </Grid>
       </DialogContent>

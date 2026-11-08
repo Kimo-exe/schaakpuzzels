@@ -6,7 +6,8 @@ const RESULT_TOKENS: string[] = ['1-0', '0-1', '1/2-1/2', '*']
 const dateFormatter = new Intl.DateTimeFormat('nl-BE', {dateStyle: 'long'})
 
 /**
- * Haalt de zetten uit een PGN-string: headers, commentaar, varianten, zetnummers en het resultaat worden verwijderd.
+ * Haalt de zetten uit een PGN-string: headers, commentaar, varianten, zetnummers, annotaties (!, ?) en het resultaat
+ * worden verwijderd.
  */
 export const parsePgnMoves = (pgn: string): string[] => {
   const moveText = pgn
@@ -19,7 +20,7 @@ export const parsePgnMoves = (pgn: string): string[] => {
 
   return moveText
     .split(/\s+/)
-    .map(token => token.replace(/^\d+\.(\.\.)?/, ''))
+    .map(token => token.replace(/^\d+\.(\.\.)?/, '').replace(/[!?]+$/, ''))
     .filter(token => token !== '' && !RESULT_TOKENS.includes(token))
 }
 
