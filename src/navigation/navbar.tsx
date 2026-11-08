@@ -18,7 +18,7 @@ const Navbar: FunctionComponent = () => {
             to="/"
             sx={{color: 'inherit', textDecoration: 'none', fontWeight: 800, mr: 2}}
           >
-            ♞ Zet &amp; Mat
+            ♞ Gratis schaak puzzels
           </Typography>
           <Stack direction="row" spacing={1} component="nav">
             <NavButton to="/" label="Home" icon={<HomeIcon />} />

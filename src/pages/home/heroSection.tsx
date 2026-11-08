@@ -25,7 +25,7 @@ const HeroSection: FunctionComponent = () => {
         Schaakpuzzels voor elke dag
       </Typography>
       <Typography variant="h2" component="h1" sx={{mb: 2}}>
-        Zet &amp; Mat
+        Gratis schaak puzzels
       </Typography>
       <Typography variant="h6" component="p" sx={{maxWidth: 600, mb: 4, fontWeight: 400}}>
         Train je tactisch inzicht met echte puzzels van Chess.com, verzamel je favorieten en test je schaakkennis.

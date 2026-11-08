@@ -10,7 +10,7 @@ const Footer: FunctionComponent = () => {
           <Link href="https://www.chess.com/news/view/published-data-api" target="_blank" rel="noreferrer">
             de Chess.com Published-Data API
           </Link>
-          . Zet &amp; Mat is een schoolproject en niet verbonden aan Chess.com.
+          . Gratis schaak puzzels is een schoolproject en niet verbonden aan Chess.com.
         </Typography>
       </Container>
     </Box>
